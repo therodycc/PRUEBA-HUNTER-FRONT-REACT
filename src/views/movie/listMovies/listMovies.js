@@ -3,24 +3,29 @@ import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // components
 import Search from "../../../components/common/search/search";
+import httpService from "../../../services/httpService";
 // css
 import "./listMovies.css";
 
 function ListMovies(props) {
-
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    getActors();
+    getMovies();
   }, []);
 
-  const getActors = async () => {
-    const res = await fetch("http://localhost:3000/api/movies");
-    const data = await res.json();
-    setMovies(data.data);
-    console.log(data);
+  const getMovies = async () => {
+    const data = await httpService.get("http://localhost:3000/api/movies");
+    setMovies(data);
   };
 
+  const deleteMovie = async(id) => {
+    await httpService
+      .delete("http://localhost:3000/api/movies/", id)
+      .then(() => {
+        getMovies();
+      });
+  };
 
   return (
     <Fragment>
@@ -40,7 +45,7 @@ function ListMovies(props) {
         </div>
 
         <div className="col-lg-2">
-        <Link to="/movies/form" className="btn btn-info btn-block">
+          <Link to="/movies/form" className="btn btn-info btn-block">
             add
           </Link>
         </div>
@@ -57,32 +62,32 @@ function ListMovies(props) {
               </tr>
             </thead>
             <tbody>
-               {movies.map((item) => ( 
-              <tr>
-                <td>{item.id}</td>
-                <td>
-                   <img src={item.photo} alt="Logo" className="imgTable" /> 
-                </td>
-                <td>{item.title}</td>
-                <td>{item.gender}</td>
+              {movies.map((item) => (
+                <tr>
+                  <td>{item.id}</td>
+                  <td>
+                    <img src={item.photo} alt="Logo" className="imgTable" />
+                  </td>
+                  <td>{item.title}</td>
+                  <td>{item.gender}</td>
 
-                <td>
-                  <button type="button" className="btn btn-primary">
-                    <i className="far fa-star mr-1 text-warning"></i> See
-                  </button>
-                  <button
-                    // onClick={deleteItem(item.id)}
-                    type="button"
-                    className="btn btn-danger"
-                  >
-                    <i className="fas fa-user-alt-slash"></i>
-                  </button>
-                  <button type="button" className="btn btn-warning">
-                    <i className="fas fa-user-edit"></i>
-                  </button>
-                </td>
-              </tr>
-              ))} 
+                  <td>
+                    <button type="button" className="btn btn-primary">
+                      <i className="far fa-star mr-1 text-warning"></i> See
+                    </button>
+                    <button
+                      onClick={(id) => deleteMovie(item.id)}
+                      type="button"
+                      className="btn btn-danger"
+                    >
+                      <i className="fas fa-user-alt-slash"></i>
+                    </button>
+                    <button type="button" className="btn btn-warning">
+                      <i className="fas fa-user-edit"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

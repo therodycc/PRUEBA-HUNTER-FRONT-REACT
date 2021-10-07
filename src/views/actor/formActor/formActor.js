@@ -1,5 +1,6 @@
 import { Fragment, useState, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
+import httpService from "../../../services/httpService";
 import sweetAlertSvc from "../../../services/sweetAlert";
 
 import "./formActor.css";
@@ -7,7 +8,7 @@ import "./formActor.css";
 function FormActor() {
   const [name, setName] = useState("");
   const [born, setBorn] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("Male");
   const [photo, setPhoto] = useState("");
 
   const history = useHistory();
@@ -19,9 +20,8 @@ function FormActor() {
   const getExisting = async () => {
     const res = await fetch("http://localhost:3000/api/actors");
     const data = await res.json();
-    console.log(data);
     for (const item of data.data) {
-      if (name == item.full_name) {
+      if (name === item.full_name) {
         return true;
       }
     }
@@ -30,31 +30,19 @@ function FormActor() {
   const add = async (e) => {
     e.preventDefault();
     const ACTOR = {
-      full_name: name,
-      born: born,
-      gender: gender,
-      photo: photo,
+      full_name: name.trim(),
+      born: born.trim(),
+      gender: gender.trim(),
+      photo: photo.trim(),
     };
-
     if (!name.trim() || !born.trim() || !gender.trim() || !photo.trim())
       return sweetAlertSvc.fillInFields();
 
-    if (getExisting()) return sweetAlertSvc.exitsUser();
-
-    await fetch("http://localhost:3000/api/actors", {
-      method: "POST",
-      body: JSON.stringify(ACTOR),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((e) => {
-        sweetAlertSvc.sweetAdded();
+    await httpService
+      .post("http://localhost:3000/api/actors", ACTOR)
+      .then(() => {
         handleOnClick();
-      })
-      .catch((e) => sweetAlertSvc.sweetError(e));
-
-    console.log(ACTOR);
+      });
   };
 
   return (
