@@ -1,5 +1,7 @@
-import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Fragment, useState, useCallback } from "react";
+import { Link, useHistory } from "react-router-dom";
+import sweetAlertSvc from "../../../services/sweetAlert";
+
 import "./formActor.css";
 
 function FormActor() {
@@ -8,15 +10,37 @@ function FormActor() {
   const [gender, setGender] = useState("");
   const [photo, setPhoto] = useState("");
 
+  const history = useHistory();
+  const handleOnClick = useCallback(
+    () => history.push("/actors/list"),
+    [history]
+  );
+
+  const getExisting = async () => {
+    const res = await fetch("http://localhost:3000/api/actors");
+    const data = await res.json();
+    console.log(data);
+    for (const item of data.data) {
+      if (name == item.full_name) {
+        return true;
+      }
+    }
+  };
+
   const add = async (e) => {
     e.preventDefault();
-
     const ACTOR = {
       full_name: name,
       born: born,
       gender: gender,
       photo: photo,
     };
+
+    if (!name.trim() || !born.trim() || !gender.trim() || !photo.trim())
+      return sweetAlertSvc.fillInFields();
+
+    if (getExisting()) return sweetAlertSvc.exitsUser();
+
     await fetch("http://localhost:3000/api/actors", {
       method: "POST",
       body: JSON.stringify(ACTOR),
@@ -24,8 +48,11 @@ function FormActor() {
         "Content-Type": "application/json",
       },
     })
-      .then((e) => console.log(e))
-      .catch((e) => console.log(e));
+      .then((e) => {
+        sweetAlertSvc.sweetAdded();
+        handleOnClick();
+      })
+      .catch((e) => sweetAlertSvc.sweetError(e));
 
     console.log(ACTOR);
   };
@@ -94,19 +121,23 @@ function FormActor() {
             <div class="row g-0">
               <div class="col-md-4">
                 <img
-                  src="https://m.media-amazon.com/images/M/MV5BMTkyNDQ3NzAxM15BMl5BanBnXkFtZTgwODIwMTQ0NTE@._V1_UY1200_CR84,0,630,1200_AL_.jpg"
+                  src={
+                    photo ||
+                    "http://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg"
+                  }
                   className="img"
                   alt=""
                 />
               </div>
               <div class="col-md-7 pl-5">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
+                  <h5 class="card-title">{name || "Nombre"}</h5>
+                  <p class="card-text"></p>
                   <p class="card-text">
-                    This is a wider card with supporting text below as a natural
+                    <small class="text-muted">{born || "DD/MM/YYYY"}</small>
                   </p>
                   <p class="card-text">
-                    <small class="text-muted">Last updated 3 mins ago</small>
+                    <small class="text-muted">{gender || "Gender"}</small>
                   </p>
                 </div>
               </div>

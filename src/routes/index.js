@@ -13,7 +13,7 @@ const IndexRoute = () => {
       <Route exact path="/home" component={Home}></Route>
       <Route path="/actors" component={actorsRoutes}></Route>
       <Route path="/movies" component={moviesRoutes}></Route>
-      <Route exact path="/popup" component={PopUp}></Route>
+      <Route path="/popup/:id" component={PopUp}></Route>
       <Route path="*" component={Home}>
         <Redirect to="/home"></Redirect>
       </Route>
