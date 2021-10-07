@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
 import "./formMovie.css";
 
 function FormMovie() {
@@ -54,6 +55,9 @@ function FormMovie() {
               <button type="submit" className="btn btn-warning btn-block">
                 Add movie
               </button>
+              <Link to="/movies/list" className="btn btn-danger btn-block">
+                Back
+              </Link>
             </form>
           </div>
         </div>

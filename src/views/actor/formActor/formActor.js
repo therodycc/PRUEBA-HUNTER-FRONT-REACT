@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import "./formActor.css";
 
 function FormActor() {
@@ -25,8 +26,8 @@ function FormActor() {
     })
       .then((e) => console.log(e))
       .catch((e) => console.log(e));
-   
-      console.log(ACTOR);
+
+    console.log(ACTOR);
   };
 
   return (
@@ -82,6 +83,9 @@ function FormActor() {
               <button type="submit" className="btn btn-warning btn-block">
                 Add actor
               </button>
+              <Link to="/actors/list" className="btn btn-danger btn-block">
+                Back
+              </Link>
             </form>
           </div>
         </div>

@@ -1,5 +1,5 @@
 // from react
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // components
 import Search from "../../../components/common/search/search";
@@ -7,7 +7,20 @@ import Search from "../../../components/common/search/search";
 import "./listMovies.css";
 
 function ListMovies(props) {
-  useEffect(() => {});
+
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    getActors();
+  }, []);
+
+  const getActors = async () => {
+    const res = await fetch("http://localhost:3000/api/movies");
+    const data = await res.json();
+    setMovies(data.data);
+    console.log(data);
+  };
+
 
   return (
     <Fragment>
@@ -44,14 +57,14 @@ function ListMovies(props) {
               </tr>
             </thead>
             <tbody>
-              {/* {props.info.map((item) => ( */}
+               {movies.map((item) => ( 
               <tr>
-                <td>item.id</td>
+                <td>{item.id}</td>
                 <td>
-                  {/* <img src={item.photo} alt="Logo" className="imgTable" /> */}
+                   <img src={item.photo} alt="Logo" className="imgTable" /> 
                 </td>
-                <td>item.full_name</td>
-                <td>item.gender</td>
+                <td>{item.title}</td>
+                <td>{item.gender}</td>
 
                 <td>
                   <button type="button" className="btn btn-primary">
@@ -69,7 +82,7 @@ function ListMovies(props) {
                   </button>
                 </td>
               </tr>
-              {/* ))} */}
+              ))} 
             </tbody>
           </table>
         </div>

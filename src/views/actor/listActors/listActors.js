@@ -1,11 +1,25 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "../../../components/common/search/search";
-import FormActor from "../formActor/formActor";
 // css
 // import "./listActors.css";
 function ListActors(props) {
-  useEffect(() => {});
+  const [actors, setActors] = useState([]);
+
+  useEffect(() => {
+    getActors();
+  }, []);
+
+  const getActors = async () => {
+    const res = await fetch("http://localhost:3000/api/actors");
+    const data = await res.json();
+    setActors(data.data);
+    console.log(data);
+  };
+
+  const deleteItem = (id)=>{
+    console.log(id)
+  }
 
   return (
     <Fragment>
@@ -42,32 +56,32 @@ function ListActors(props) {
               </tr>
             </thead>
             <tbody>
-              {/* {props.info.map((item) => ( */}
-              <tr>
-                <td>item.id</td>
-                <td>
-                  {/* <img src={item.photo} alt="Logo" className="imgTable" /> */}
-                </td>
-                <td>item.full_name</td>
-                <td>item.gender</td>
+              {actors.map((item) => (
+                <tr>
+                  <td>{item.id}</td>
+                  <td>
+                     <img src={item.photo} alt="Logo" className="imgTable" /> 
+                  </td>
+                  <td>{item.full_name}</td>
+                  <td>{item.gender}</td>
 
-                <td>
-                  <button type="button" className="btn btn-primary">
-                    <i class="far fa-star mr-1 text-warning"></i> See
-                  </button>
-                  <button
-                    // onClick={deleteItem(item.id)}
-                    type="button"
-                    className="btn btn-danger"
-                  >
-                    <i className="fas fa-user-alt-slash"></i>
-                  </button>
-                  <button type="button" className="btn btn-warning">
-                    <i className="fas fa-user-edit"></i>
-                  </button>
-                </td>
-              </tr>
-              {/* ))} */}
+                  <td>
+                    <button type="button" className="btn btn-primary">
+                      <i class="far fa-star mr-1 text-warning"></i> See
+                    </button>
+                    <button
+                      onClick={deleteItem(item.id)}
+                      type="button"
+                      className="btn btn-danger"
+                    >
+                      <i className="fas fa-user-alt-slash"></i>
+                    </button>
+                    <button type="button" className="btn btn-warning">
+                      <i className="fas fa-user-edit"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
