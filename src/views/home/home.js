@@ -1,27 +1,39 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+
+import "./home.css";
 
 function Home() {
-  const [movies, setMovies] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+  const [movies, setMovies] = useState([1, 1, 3, 34, 5]);
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+
+  const getMovies = async () => {
+    const res = await fetch("http://localhost:3000/api/movies");
+    const data = await res.json();
+    console.log(data.data);
+    setMovies(data.data);
+  };
 
   return (
     <Fragment>
       <div className="row">
         {movies.map((movie, index) => (
-          <div className="col-lg-4 mt-3" key={index}>
-            <div className="card">
-              <div className="card-header">Header</div>
+          <div className="col-lg-4 mt-3">
+            <div className="card" key={movie.id}>
               <div className="card-body p-0">
                 <img
-                  className="col-lg-12 p-0"
-                  src="https://pbs.twimg.com/media/E3JqCabVgAIrMYC.jpg"
+                  className="col-lg-12 p-0 imgPortada"
+                  src={movie.photo}
                   alt=""
                 />
               </div>
-              <div className="card-footer p-0 bg-secondary">
-                <button type="button" name="" id="" class="btn btn-danger btn-sm">Delete</button>
-                <button type="button" name="" id="" class="btn btn-success btn-sm">Delete</button>
-                <button type="button" name="" id="" class="btn btn-warning btn-sm">Delete</button>
-              </div>
+            </div>
+            <div className="card-footer">
+              <button type="button" className="btn btn-danger">
+                Delete
+              </button>
             </div>
           </div>
         ))}

@@ -1,23 +1,27 @@
-import { Fragment } from "react";
-import FormActor from "../../components/common/formActor/formActor";
+import { Fragment, useEffect, useState } from "react";
+
+import FormActor from "./formActor/formActor";
 import Search from "../../components/common/search/search";
 import Table from "../../components/common/Table/Table";
+import ListActors from "./listActors/listActors";
 
 function Actor() {
+  const [actors, setActors] = useState([]);
+
+  useEffect(() => {
+    getActors();
+  }, []);
+
+  const getActors = async () => {
+    const res = await fetch("http://localhost:3000/api/actors");
+    const data = await res.json();
+    setActors(data.data);
+  };
+
   return (
     <Fragment>
-      <div class="row mt-5">
-        <div class="col-lg-5">
-          <Search></Search>
-        </div>
-        <div class="col-lg-2">
-          <button type="button" name="" id="" class="btn btn-info btn-block">
-            add
-          </button>
-        </div>
-      </div>
-      <Table />
-      <FormActor />
+      <FormActor></FormActor>
+      <ListActors></ListActors>
     </Fragment>
   );
 }

@@ -1,18 +1,45 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import "./formActor.css";
 
 function FormActor() {
-  const handleSubmit = (e) => {
+  const [name, setName] = useState("");
+  const [born, setBorn] = useState("");
+  const [gender, setGender] = useState("");
+  const [photo, setPhoto] = useState("");
+
+  const add = async (e) => {
     e.preventDefault();
-    console.log(e);
+
+    const ACTOR = {
+      full_name: name,
+      born: born,
+      gender: gender,
+      photo: photo,
+    };
+    await fetch("http://localhost:3000/api/actors", {
+      method: "POST",
+      body: JSON.stringify(ACTOR),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((e) => console.log(e))
+      .catch((e) => console.log(e));
+   
+      console.log(ACTOR);
   };
+
   return (
     <Fragment>
       <h1 className="text-left text-warning p-3 m-3">Actors</h1>
       <div className="row">
         <div className="col-lg-6">
           <div className="card card-body">
-            <form onSubmit={(e)=>{handleSubmit(e)}}>
+            <form
+              onSubmit={(e) => {
+                add(e);
+              }}
+            >
               <div className="row">
                 <div className="form-group col-lg-6">
                   <input
@@ -20,6 +47,7 @@ function FormActor() {
                     name="Name"
                     className="form-control"
                     placeholder="Name"
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="form-group col-lg-6">
@@ -28,6 +56,7 @@ function FormActor() {
                     name="Born"
                     className="form-control"
                     placeholder="Born"
+                    onChange={(e) => setBorn(e.target.value)}
                   />
                 </div>
               </div>
@@ -35,9 +64,10 @@ function FormActor() {
                 <select
                   className="form-control"
                   aria-label="Default select example"
+                  onChange={(e) => setGender(e.target.value)}
                 >
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
                 </select>
               </div>
               <div className="form-group">
@@ -46,6 +76,7 @@ function FormActor() {
                   name="Image"
                   className="form-control"
                   placeholder="Image"
+                  onChange={(e) => setPhoto(e.target.value)}
                 />
               </div>
               <button type="submit" className="btn btn-warning btn-block">

@@ -1,17 +1,19 @@
 import { Fragment } from "react";
 import "./App.css";
 import Header from "./components/layouts/header/header";
-import Actor from "./views/actor/actor";
-import Home from "./views/home/home";
-import Movie from "./views/movie/movie";
+import { BrowserRouter as Router } from "react-router-dom";
+import IndexRoute from "./routes";
+
 
 function App() {
   return (
     <Fragment>
-      <Header />
-      <div className="container mt-5">
-        <Actor></Actor>
-      </div>
+      <Router>
+        <Header />
+        <div className="container mt-5">
+            <IndexRoute></IndexRoute>
+        </div>
+      </Router>
     </Fragment>
   );
 }
