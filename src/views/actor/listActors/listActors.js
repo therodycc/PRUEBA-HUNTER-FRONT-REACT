@@ -5,7 +5,7 @@ import httpService from "../../../services/httpService";
 import sweetAlertSvc from "../../../services/sweetAlert";
 // css
 // import "./listActors.css";
-function ListActors(props) {
+function ListActors() {
   const [actors, setActors] = useState([]);
   const [id, setId] = useState("");
 
@@ -72,7 +72,7 @@ function ListActors(props) {
 
                   <td>
                     <button type="button" className="btn btn-primary">
-                      <i class="far fa-star mr-1 text-warning"></i> See
+                      <i className="far fa-star mr-1 text-warning"></i> See
                     </button>
                     <button
                       onClick={(id) => deleteItem(item.id)}
@@ -81,9 +81,9 @@ function ListActors(props) {
                     >
                       <i className="fas fa-user-alt-slash"></i>
                     </button>
-                    <button type="button" className="btn btn-warning">
+                    <Link to={"/actors/form/" + item.id}type="button" className="btn btn-warning">
                       <i className="fas fa-user-edit"></i>
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

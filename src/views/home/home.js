@@ -32,7 +32,7 @@ function Home() {
             </div>
             <div className="card-footer">
               <button type="button" className="btn btn-primary col-lg-4">
-                <i class="far fa-star mr-1 text-warning"></i> See
+                <i className="far fa-star mr-1 text-warning"></i> See
               </button>
               <button
                 // onClick={deleteItem(item.id)}

@@ -6,8 +6,8 @@ function PopUp() {
   return (
     <Fragment>
       <h1>Pop Up</h1>
-      <div class="row mt-5">
-        <div class="col-lg-4">
+      <div className="row mt-5">
+        <div className="col-lg-4">
           <div className="card">
             <div className="card-header">Header</div>
             <div className="card-body p-0">
@@ -21,7 +21,7 @@ function PopUp() {
           </div>
         </div>
         <div className="col-lg-8">
-          <ul class="list-group">
+          <ul className="list-group">
             {listActors.map((e) => (
               <li className="list-group-item border-list-item mb-3 " key={e}>
                 <div className="row">

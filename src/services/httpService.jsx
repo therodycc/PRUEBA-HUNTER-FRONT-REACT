@@ -6,6 +6,11 @@ class HttpService {
     const data = await res.json();
     return data.data;
   }
+  async getOne(url, id) {
+    const res = await fetch(`${url}/${id}`);
+    const data = await res.json();
+    return data.data;
+  }
   async post(url, data) {
     await fetch(url, {
       method: "POST",
@@ -34,6 +39,22 @@ class HttpService {
     }
   }
 
+  async put(url, id, data) {
+    fetch(`${url}/${id}`, {
+      method: "PUT", 
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        sweetAlertSvc.sweetUpdated()
+      })
+      .catch((error) => {
+        sweetAlertSvc.sweetError(error)
+      })
+
+  }
 }
 
 const httpService = new HttpService();

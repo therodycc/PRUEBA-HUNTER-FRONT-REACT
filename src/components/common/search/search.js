@@ -3,13 +3,13 @@ import { Fragment } from "react";
 function Search() {
   return (
     <Fragment>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">
+      <div className="input-group mb-3">
+        <span className="input-group-text" id="basic-addon1">
           @
         </span>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           placeholder="Search"
         />
       </div>

@@ -14,25 +14,25 @@ function Header() {
             <ul className="navbar-nav ml-auto">
               <Link className="nav-item" to="/home">
                 <span className="nav-link">
-                  <i class="fas fa-video text-warning mr-2"></i> Home
+                  <i className="fas fa-video text-warning mr-2"></i> Home
                 </span>
               </Link>
 
               <Link className="nav-item" to="/actors/list">
                 <span className="nav-link">
-                  <i class="fas fa-video text-warning mr-2"></i>
+                  <i className="fas fa-video text-warning mr-2"></i>
                   actors
                 </span>
               </Link>
               <Link className="nav-item" to="/movies/list">
                 <span className="nav-link">
-                  <i class="fas fa-compact-disc text-warning mr-2"></i>
+                  <i className="fas fa-compact-disc text-warning mr-2"></i>
                   Movies
                 </span>
               </Link>
 
               {/*         <button type="button" className="btn btn-info mr-3">
-              <i class="fas fa-compact-disc text-warning mr-2"></i>
+              <i className="fas fa-compact-disc text-warning mr-2"></i>
                 Movies
               </button> */}
             </ul>

@@ -7,8 +7,9 @@ import ListMovies from "../views/movie/listMovies/listMovies";
 const moviesRoutes = () => {
   return (
     <Switch>
-      <Route exact path="/movies/form" component={FormMovie}></Route>
       <Route exact path="/movies/list" component={ListMovies}></Route>
+      <Route exact path="/movies/form" component={FormMovie}></Route>
+      <Route exact path="/movies/form/:id" component={FormMovie}></Route>
     </Switch>
   );
 };

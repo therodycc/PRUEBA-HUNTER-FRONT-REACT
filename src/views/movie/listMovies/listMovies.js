@@ -7,7 +7,7 @@ import httpService from "../../../services/httpService";
 // css
 import "./listMovies.css";
 
-function ListMovies(props) {
+function ListMovies() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ function ListMovies(props) {
             </thead>
             <tbody>
               {movies.map((item) => (
-                <tr>
+                <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>
                     <img src={item.photo} alt="Logo" className="imgTable" />
