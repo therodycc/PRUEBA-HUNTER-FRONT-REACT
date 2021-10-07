@@ -1,10 +1,15 @@
+// from react
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// components
 import Search from "../../../components/common/search/search";
+//services
 import httpService from "../../../services/httpService";
-import sweetAlertSvc from "../../../services/sweetAlert";
 // css
-// import "./listActors.css";
+import "./listActors.css";
+
+
+
 function ListActors() {
   const [actors, setActors] = useState([]);
   const [id, setId] = useState("");
@@ -57,6 +62,7 @@ function ListActors() {
                 <th>ID</th>
                 <th>Photo</th>
                 <th>Name</th>
+                <th>Born</th>
                 <th>Gender</th>
               </tr>
             </thead>
@@ -68,6 +74,7 @@ function ListActors() {
                     <img src={item.photo} alt="Logo" className="imgTable" />
                   </td>
                   <td>{item.full_name}</td>
+                  <td>{item.born}</td>
                   <td>{item.gender}</td>
 
                   <td>

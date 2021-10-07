@@ -58,6 +58,7 @@ function ListMovies() {
                 <th>ID</th>
                 <th>Photo</th>
                 <th>Name</th>
+                <th>Premiere</th>
                 <th>Gender</th>
               </tr>
             </thead>
@@ -69,6 +70,7 @@ function ListMovies() {
                     <img src={item.photo} alt="Logo" className="imgTable" />
                   </td>
                   <td>{item.title}</td>
+                  <td>{item.premiere}</td>
                   <td>{item.gender}</td>
 
                   <td>

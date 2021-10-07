@@ -1,5 +1,9 @@
+// from react
 import { Fragment, useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
+// services
+import httpService from "../../services/httpService";
+// css
 import "./home.css";
 
 function Home() {
@@ -10,10 +14,16 @@ function Home() {
   }, []);
 
   const getMovies = async () => {
-    const res = await fetch("http://localhost:3000/api/movies");
-    const data = await res.json();
-    console.log(data.data);
-    setMovies(data.data);
+    const data = await httpService.get("http://localhost:3000/api/movies");
+    setMovies(data);
+  };
+
+  const deleteMovie = async (id) => {
+    await httpService
+      .delete("http://localhost:3000/api/movies/", id)
+      .then(() => {
+        getMovies();
+      });
   };
 
   return (
@@ -35,15 +45,19 @@ function Home() {
                 <i className="far fa-star mr-1 text-warning"></i> See
               </button>
               <button
-                // onClick={deleteItem(item.id)}
+                onClick={(id) => deleteMovie(movie.id)}
                 type="button"
                 className="btn btn-danger col-lg-4"
               >
                 <i className="fas fa-user-alt-slash"></i>
               </button>
-              <button type="button" className="btn btn-warning col-lg-4">
+              <Link
+                to={"/movies/form/" + movie.id}
+                type="button"
+                className="btn btn-warning col-lg-4"
+              >
                 <i className="fas fa-user-edit"></i>
-              </button>
+              </Link>
             </div>
           </div>
         ))}
