@@ -1,29 +1,24 @@
+// from react
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+// pages
 import Home from "../views/home/home";
-import Actor from "../views/actor/actor";
-import Movie from "../views/movie/movie";
-import { Switch, Route } from "react-router-dom";
+import PopUp from "../views/popup/popup";
+import actorsRoutes from "./actorsRoutes";
+import moviesRoutes from "./moviesRoutes";
 
-
-
-import React from 'react'
-
- const IndexRoute = () => {
+const IndexRoute = () => {
   return (
     <Switch>
-    <Route path="/home">
-      <Home></Home>
-    </Route>
-    <Route path="/actors">
-      <Actor />
-    </Route>
-    <Route path="/movies">
-      <Movie></Movie>
-    </Route>
-    <Route path="/popup">popup</Route>
-  </Switch>
-  )
-}
-
-
+      <Route exact path="/home" component={Home}></Route>
+      <Route path="/actors" component={actorsRoutes}></Route>
+      <Route path="/movies" component={moviesRoutes}></Route>
+      <Route exact path="/popup" component={PopUp}></Route>
+      <Route path="*" component={Home}>
+        <Redirect to="/home"></Redirect>
+      </Route>
+    </Switch>
+  );
+};
 
 export default IndexRoute;

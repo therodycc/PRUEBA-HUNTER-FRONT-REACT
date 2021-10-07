@@ -1,19 +1,35 @@
+// from react
 import { Fragment, useEffect } from "react";
+import { Link } from "react-router-dom";
+// components
 import Search from "../../../components/common/search/search";
+// css
 import "./listMovies.css";
+
 function ListMovies(props) {
   useEffect(() => {});
 
   return (
     <Fragment>
-      <div class="row mt-5">
-        <div class="col-lg-5">
+      <h1 className="text-left text-warning">Movies</h1>
+      <div className="row mt-3 d-flex justify-content-between">
+        <div className="col-lg-8">
           <Search></Search>
         </div>
-        <div class="col-lg-2">
-          <button type="button" name="" id="" class="btn btn-info btn-block">
+        <div className="col-lg-2">
+          <select
+            className="form-control mb-3"
+            aria-label=".form-select-lg example"
+          >
+            <option value="General">General</option>
+            <option value="Gender">Gender</option>
+          </select>
+        </div>
+
+        <div className="col-lg-2">
+        <Link to="/movies/form" className="btn btn-info btn-block">
             add
-          </button>
+          </Link>
         </div>
       </div>
       <div className="card">
@@ -39,7 +55,7 @@ function ListMovies(props) {
 
                 <td>
                   <button type="button" className="btn btn-primary">
-                    <i class="far fa-star mr-1 text-warning"></i> See
+                    <i className="far fa-star mr-1 text-warning"></i> See
                   </button>
                   <button
                     // onClick={deleteItem(item.id)}

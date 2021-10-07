@@ -1,19 +1,33 @@
 import { Fragment, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Search from "../../../components/common/search/search";
-import "./listActors.css";
+import FormActor from "../formActor/formActor";
+// css
+// import "./listActors.css";
 function ListActors(props) {
   useEffect(() => {});
 
   return (
     <Fragment>
-      <div className="row mt-5">
-        <div className="col-lg-5">
+      <h1 className="text-left text-warning">Actors</h1>
+      <div className="row mt-3 d-flex justify-content-between">
+        <div className="col-lg-8">
           <Search></Search>
         </div>
         <div className="col-lg-2">
-          <button type="button" className="btn btn-info btn-block">
+          <select
+            className="form-control mb-3"
+            aria-label=".form-select-lg example"
+          >
+            <option value="General">General</option>
+            <option value="Gender">Gender</option>
+          </select>
+        </div>
+
+        <div className="col-lg-2">
+          <Link to="/actors/form" className="btn btn-info btn-block">
             add
-          </button>
+          </Link>
         </div>
       </div>
       <div className="card">

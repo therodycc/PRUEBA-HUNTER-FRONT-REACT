@@ -31,8 +31,18 @@ function Home() {
               </div>
             </div>
             <div className="card-footer">
-              <button type="button" className="btn btn-danger">
-                Delete
+              <button type="button" className="btn btn-primary col-lg-4">
+                <i class="far fa-star mr-1 text-warning"></i> See
+              </button>
+              <button
+                // onClick={deleteItem(item.id)}
+                type="button"
+                className="btn btn-danger col-lg-4"
+              >
+                <i className="fas fa-user-alt-slash"></i>
+              </button>
+              <button type="button" className="btn btn-warning col-lg-4">
+                <i className="fas fa-user-edit"></i>
               </button>
             </div>
           </div>

@@ -18,14 +18,14 @@ function Header() {
                 </span>
               </Link>
 
-              <Link className="nav-item" to="/actors">
+              <Link className="nav-item" to="/actors/list">
                 <span className="nav-link">
                   <i class="fas fa-video text-warning mr-2"></i>
                   actors
                 </span>
               </Link>
-              <Link className="nav-item" to="/movies">
-                <span className="nav-link" >
+              <Link className="nav-item" to="/movies/list">
+                <span className="nav-link">
                   <i class="fas fa-compact-disc text-warning mr-2"></i>
                   Movies
                 </span>
