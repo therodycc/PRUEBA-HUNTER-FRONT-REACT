@@ -82,9 +82,9 @@ function ListMovies() {
                     >
                       <i className="fas fa-user-alt-slash"></i>
                     </button>
-                    <button type="button" className="btn btn-warning">
+                    <Link to={"/movies/form/" + item.id}type="button" className="btn btn-warning">
                       <i className="fas fa-user-edit"></i>
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

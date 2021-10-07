@@ -1,5 +1,5 @@
-import { Fragment, useCallback, useState } from "react";
-import { useHistory,Link } from "react-router-dom";
+import { Fragment, useCallback, useEffect, useState } from "react";
+import { useHistory,Link ,useParams} from "react-router-dom";
 
 import httpService from "../../../services/httpService";
 import sweetAlertSvc from "../../../services/sweetAlert";
@@ -10,12 +10,35 @@ function FormMovie() {
   const [premiere, setPremiere] = useState("");
   const [gender, setGender] = useState("Male");
   const [photo, setPhoto] = useState("");
+  const [edit, setEdit] = useState("");
 
   const history = useHistory();
   const handleOnClick = useCallback(
     () => history.push("/movies/list"),
     [history]
   );
+
+  useEffect(() => {
+    KnowParamsId();
+  },[]);
+
+  const { id } = useParams();
+  const KnowParamsId = async() => {
+    console.log(id);
+    if (id) {
+      setEdit(true);
+      await httpService.getOne("http://localhost:3000/api/movies", id)
+      .then((e) => {
+        console.log(e);
+        setTitle(e.title);
+        setPremiere(e.premiere);
+        setGender(e.gender);
+        setPhoto(e.photo);
+      });
+    } else {
+      setEdit(false);
+    }
+  };
 
   const add = async (e) => {
     e.preventDefault();
@@ -35,6 +58,22 @@ function FormMovie() {
         handleOnClick();
       });
   };
+
+  const updateMovie = async (e) => {
+    e.preventDefault();
+    const MOVIE = {
+      title: title.trim(),
+      premiere: premiere.trim(),
+      gender: gender.trim(),
+      photo: photo.trim(),
+    };
+    await httpService.put("http://localhost:3000/api/movies", id, MOVIE)
+    .then(() => {
+      handleOnClick();
+    });
+    setEdit(false);
+  };
+
   
   return (
     <Fragment>
@@ -42,7 +81,8 @@ function FormMovie() {
       <div className="row">
         <div className="col-lg-6">
           <div className="card card-body">
-            <form onSubmit={(e)=> add(e)}>
+            <form onSubmit={(e) => {
+                !edit ? add(e) : updateMovie(e)}}>
               <div className="row">
                 <div className="form-group col-lg-6">
                   <input
@@ -51,6 +91,7 @@ function FormMovie() {
                     className="form-control"
                     placeholder="Title"
                     onChange={e=>setTitle(e.target.value)}
+                    value={title}
                   />
                 </div>
                 <div className="form-group col-lg-6">
@@ -60,6 +101,7 @@ function FormMovie() {
                     className="form-control"
                     placeholder="Premiere"
                     onChange={e=>setPremiere(e.target.value)}
+                    value={premiere}
                   />
                 </div>
               </div>
@@ -69,6 +111,7 @@ function FormMovie() {
                   className="form-control"
                   aria-label="Default select example"
                   onChange={e=>setGender(e.target.value)}
+                  value={gender}
                 >
                   <option value="FICTION">FICTION</option>
                   <option value="ADVENTURE">ADVENTURE</option>
@@ -83,10 +126,11 @@ function FormMovie() {
                   className="form-control"
                   placeholder="Image"
                   onChange={e=>setPhoto(e.target.value)}
+                  value={photo}
                 />
               </div>
               <button type="submit" className="btn btn-warning btn-block">
-                Add movie
+              {edit ? "Save movie" : "Add movie"}
               </button>
               <Link to="/movies/list" className="btn btn-danger btn-block">
                 Back
@@ -96,22 +140,26 @@ function FormMovie() {
         </div>
         <div className="col-lg-6 ">
           <div className="card mb-4">
-            <div className="row g-0">
+          <div className="row g-0">
               <div className="col-md-4">
                 <img
-                  src="https://pbs.twimg.com/media/E3JqCabVgAIrMYC.jpg"
+                  src={
+                    photo ||
+                    "https://glhf.online/wp-content/themes/myarcadetheme/images/noimg.png"
+                  }
                   className="img"
                   alt=""
                 />
               </div>
-              <div className="col-md-8 pl-5">
-                <div className="card-body ">
-                  <h5 className="card-title">Card title</h5>
+              <div className="col-md-7 pl-5">
+                <div className="card-body">
+                  <h5 className="card-title">{title || "title"}</h5>
+                  <p className="card-text"></p>
                   <p className="card-text">
-                    This is a wider card with supporting text below as a natural
+                    <small className="text-muted">{premiere || "DD/MM/YYYY"}</small>
                   </p>
                   <p className="card-text">
-                    <small className="text-muted">Last updated 3 mins ago</small>
+                    <small className="text-muted">{gender || "Gender"}</small>
                   </p>
                 </div>
               </div>

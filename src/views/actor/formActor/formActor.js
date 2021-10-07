@@ -74,10 +74,11 @@ function FormActor() {
       gender: gender.trim(),
       photo: photo.trim(),
     };
-    await httpService.put("http://localhost:3000/api/actors", id, ACTOR)
-    .then(() => {
-      handleOnClick();
-    });
+    await httpService
+      .put("http://localhost:3000/api/actors", id, ACTOR)
+      .then(() => {
+        handleOnClick();
+      });
     setEdit(false);
   };
 
@@ -136,9 +137,9 @@ function FormActor() {
                 />
               </div>
               <button type="submit" className="btn btn-warning btn-block">
-                Save actor
+                {edit ? "Save actor" : "Add actor"}
               </button>
-          
+
               <Link to="/actors/list" className="btn btn-danger btn-block">
                 Back
               </Link>
