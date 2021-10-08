@@ -8,8 +8,6 @@ import httpService from "../../../services/httpService";
 // css
 import "./listActors.css";
 
-
-
 function ListActors() {
   const [actors, setActors] = useState([]);
   const [id, setId] = useState("");
@@ -78,9 +76,12 @@ function ListActors() {
                   <td>{item.gender}</td>
 
                   <td>
-                    <button type="button" className="btn btn-primary">
+                    <Link
+                      to={"/popup/movies/" + item.id}
+                      className="btn btn-primary"
+                    >
                       <i className="far fa-star mr-1 text-warning"></i> See
-                    </button>
+                    </Link>
                     <button
                       onClick={(id) => deleteItem(item.id)}
                       type="button"
@@ -88,7 +89,11 @@ function ListActors() {
                     >
                       <i className="fas fa-user-alt-slash"></i>
                     </button>
-                    <Link to={"/actors/form/" + item.id}type="button" className="btn btn-warning">
+                    <Link
+                      to={"/actors/form/" + item.id}
+                      type="button"
+                      className="btn btn-warning"
+                    >
                       <i className="fas fa-user-edit"></i>
                     </Link>
                   </td>

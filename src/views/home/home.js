@@ -42,7 +42,7 @@ function Home() {
             </div>
             <div className="card-footer">
               <Link
-                to={"/popup/" + movie.id}
+                to={"/popup/actors/" + movie.id}
                 className="btn btn-primary col-lg-4"
               >
                 <i className="far fa-star mr-1 text-warning"></i> See

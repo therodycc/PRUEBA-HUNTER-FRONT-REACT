@@ -75,7 +75,7 @@ function ListMovies() {
 
                   <td>
                     <Link
-                      to={"/popup/" + item.id}
+                      to={"/popup/actors/" + item.id}
                       className="btn btn-primary"
                     >
                       <i className="far fa-star mr-1 text-warning"></i> See
