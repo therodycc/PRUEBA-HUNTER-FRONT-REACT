@@ -43,12 +43,20 @@ function PopUp() {
 
   const addNew = () => {
     const data = {
-      id_actor:idActor,
-      id_movie:id
-    }
-    httpService.post(`http://localhost:3000/api/popup`, data)
-    .then(()=>{
-      getActorsMovie()
+      id_actor: idActor,
+      id_movie: id,
+    };
+    httpService.post(`http://localhost:3000/api/popup`, data).then(() => {
+      getActorsMovie();
+    });
+  };
+
+  const deleteActorFromMovie = (idActorDelete) => {
+    httpService.delete(
+      "http://localhost:3000/api/popup",
+      `${idActorDelete}/${id}`
+    ).then(() => {
+      getActorsMovie();
     });
   };
 
@@ -67,8 +75,11 @@ function PopUp() {
             className="form-control"
             onChange={(e) => setIdActor(e.target.value)}
           >
+            <option selected>select an actor</option>
             {actors.map((actor) => (
-              <option key={actor.id} value={actor.id}>{actor.full_name}</option>
+              <option key={actor.id} value={actor.id}>
+                {actor.full_name}
+              </option>
             ))}
           </select>
         </div>
@@ -105,14 +116,20 @@ function PopUp() {
                 className="list-group-item border-list-item mb-3 "
                 key={e.id_movie}
               >
-                <div className="row d-flex">
+                <div className="row d-flex align-items-center">
                   <div className="col-lg-2">
                     <img className=" p-0 imgRound" src={e.photo} alt="" />
                   </div>
-                  <div className="col-lg-10 pl-5">
-                    <h2>{e.full_name}</h2>
+                  <div className="col-lg-8 pl-3">
+                    <h1>{e.full_name}</h1>
                     <span className="ml-3">{e.gender} </span>
                     <span className="ml-3">{e.born} </span>
+                  </div>
+                  <div className="col-lg-2 ">
+                    <i
+                      onClick={(id) => deleteActorFromMovie(e.id)}
+                      className="fas fa-user-alt-slash btn btn-danger btn-lg"
+                    ></i>
                   </div>
                 </div>
               </li>

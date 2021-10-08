@@ -19,7 +19,7 @@ function ListMovies() {
     setMovies(data);
   };
 
-  const deleteMovie = async(id) => {
+  const deleteMovie = async (id) => {
     await httpService
       .delete("http://localhost:3000/api/movies/", id)
       .then(() => {
@@ -74,9 +74,12 @@ function ListMovies() {
                   <td>{item.gender}</td>
 
                   <td>
-                    <button type="button" className="btn btn-primary">
+                    <Link
+                      to={"/popup/" + item.id}
+                      className="btn btn-primary"
+                    >
                       <i className="far fa-star mr-1 text-warning"></i> See
-                    </button>
+                    </Link>
                     <button
                       onClick={(id) => deleteMovie(item.id)}
                       type="button"
@@ -84,7 +87,11 @@ function ListMovies() {
                     >
                       <i className="fas fa-user-alt-slash"></i>
                     </button>
-                    <Link to={"/movies/form/" + item.id}type="button" className="btn btn-warning">
+                    <Link
+                      to={"/movies/form/" + item.id}
+                      type="button"
+                      className="btn btn-warning"
+                    >
                       <i className="fas fa-user-edit"></i>
                     </Link>
                   </td>
