@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
 import httpService from "../../services/httpService";
+import sweetAlertSvc from "../../services/sweetAlert";
 import "./popup.css";
 
 function PopUp() {
@@ -17,15 +18,12 @@ function PopUp() {
 
   const { path } = useRouteMatch();
   useEffect(() => {
-    if (path == "/popup/actors/:id") {
-      getActorsMovie();
-      getMovie();
-      getActors();
-    } else if (path == "/popup/movies/:id") {
-      getMoviesActor();
-      getActor();
-      getMovies();
-    }
+    getActorsMovie();
+    getMovie();
+    getActors();
+    getMoviesActor();
+    getActor();
+    getMovies();
   }, []);
 
   const { id } = useParams();
@@ -53,7 +51,11 @@ function PopUp() {
       console.log(e);
     }
   };
-  const addNewActor = () => {
+  const addNewActor = async() => {
+   const verify = await getExitings();
+   if(verify){
+     return;
+   }
     const data = {
       id_actor: idActor,
       id_movie: id,
@@ -62,11 +64,30 @@ function PopUp() {
       getActorsMovie();
     });
   };
+
   const deleteActorFromMovie = (idActorDelete) => {
     httpService
       .delete("http://localhost:3000/api/popup", `${idActorDelete}/${id}`)
       .then(() => {
         getActorsMovie();
+      });
+  };
+  const getExitings = async () => {
+    return await httpService
+      .get("http://localhost:3000/api/popup")
+      .then((data) => {
+        for (const popup of data) {
+          if (popup.id_actor == idActor && popup.id_movie == id ) {
+            sweetAlertSvc.exitsData("Existing")
+            console.log("Existing actor", `${popup.id_actor}--${popup.id_movie}`);
+            return true;
+          }
+          if (popup.id_actor == id && popup.id_movie == idMovie) {
+            sweetAlertSvc.exitsData("Existing")
+            console.log("Existing movie", `${popup.id_actor}--${popup.id_movie}`);
+            return true;
+          }
+        }
       });
   };
 
@@ -93,7 +114,11 @@ function PopUp() {
       console.log(e);
     }
   };
-  const addNewMovie = () => {
+  const addNewMovie = async() => {
+    const verify = await getExitings();
+    if(verify){
+      return;
+    }
     const data = {
       id_actor: id,
       id_movie: idMovie,
@@ -103,7 +128,6 @@ function PopUp() {
     });
   };
   const deleteMovieFromActor = (idMovieDelete) => {
-    alert(idMovieDelete);
     httpService
       .delete("http://localhost:3000/api/popup", `${id}/${idMovieDelete}`)
       .then(() => {
