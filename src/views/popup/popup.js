@@ -103,7 +103,7 @@ function PopUp() {
     });
   };
   const deleteMovieFromActor = (idMovieDelete) => {
-    alert(idMovieDelete)
+    alert(idMovieDelete);
     httpService
       .delete("http://localhost:3000/api/popup", `${id}/${idMovieDelete}`)
       .then(() => {
@@ -130,7 +130,11 @@ function PopUp() {
                 : setIdMovie(e.target.value)
             }
           >
-            <option selected>select an actor</option>
+            <option selected>
+              {path === "/popup/actors/:id"
+                ? "select an actor"
+                : "select an movie"}
+            </option>
             {(path === "/popup/actors/:id" ? actors : movies).map((item) => (
               <option key={item.id} value={item.id}>
                 {path === "/popup/actors/:id" ? item.full_name : item.title}
@@ -183,13 +187,21 @@ function PopUp() {
                     <img className=" p-0 imgRound" src={e.photo} alt="" />
                   </div>
                   <div className="col-lg-8 pl-3">
-                    <h1>{path === "/popup/actors/:id"? e.full_name : e.title}</h1>
+                    <h1>
+                      {path === "/popup/actors/:id" ? e.full_name : e.title}
+                    </h1>
                     <span className="ml-3">{e.gender} </span>
-                    <span className="ml-3">{path === "/popup/actors/:id" ? e.born : e.premiere} </span>
+                    <span className="ml-3">
+                      {path === "/popup/actors/:id" ? e.born : e.premiere}
+                    </span>
                   </div>
                   <div className="col-lg-2 ">
                     <i
-                      onClick={(id) =>path === "/popup/actors/:id"? deleteActorFromMovie(e.id):deleteMovieFromActor(e.id)}
+                      onClick={(id) =>
+                        path === "/popup/actors/:id"
+                          ? deleteActorFromMovie(e.id)
+                          : deleteMovieFromActor(e.id)
+                      }
                       className="fas fa-user-alt-slash btn btn-danger btn-lg"
                     ></i>
                   </div>

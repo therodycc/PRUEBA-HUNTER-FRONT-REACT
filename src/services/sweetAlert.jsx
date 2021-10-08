@@ -1,14 +1,14 @@
 import Swal from "sweetalert2";
 
-class sweetAlertService  {
-   sweetAdded(){
+class sweetAlertService {
+  sweetAdded() {
     Swal.fire({
       title: "Added!",
       icon: "success",
       showConfirmButton: false,
       timer: 1000,
     });
-  };
+  }
   sweetUpdated = () => {
     Swal.fire({
       title: "Actualizado!",
@@ -48,10 +48,10 @@ class sweetAlertService  {
     });
   };
 
-  exitsUser = () => {
+  exitsData = (title) => {
     Swal.fire({
-      title: "YA EXISTE ESTE USUARIO!",
-      text: `Usuario existente`,
+      title: title,
+      text: `Registro existente`,
       icon: "warning",
       showConfirmButton: false,
     });
@@ -64,8 +64,7 @@ class sweetAlertService  {
       showConfirmButton: false,
     });
   };
+}
 
-};
-
-const sweetAlertSvc = new sweetAlertService()
-export default sweetAlertSvc
+const sweetAlertSvc = new sweetAlertService();
+export default sweetAlertSvc;
