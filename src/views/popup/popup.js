@@ -51,11 +51,15 @@ function PopUp() {
       console.log(e);
     }
   };
-  const addNewActor = async() => {
-   const verify = await getExitings();
-   if(verify){
-     return;
-   }
+  const addNewActor = async () => {
+    const verify = await getExitings();
+    if (verify) {
+      return;
+    }
+    if (idActor === "") {
+      sweetAlertSvc.fillInFields();
+      return
+    }
     const data = {
       id_actor: idActor,
       id_movie: id,
@@ -72,19 +76,26 @@ function PopUp() {
         getActorsMovie();
       });
   };
+
   const getExitings = async () => {
     return await httpService
       .get("http://localhost:3000/api/popup")
       .then((data) => {
         for (const popup of data) {
-          if (popup.id_actor == idActor && popup.id_movie == id ) {
-            sweetAlertSvc.exitsData("Existing")
-            console.log("Existing actor", `${popup.id_actor}--${popup.id_movie}`);
+          if (popup.id_actor == idActor && popup.id_movie == id) {
+            sweetAlertSvc.exitsData("Existing");
+            console.log(
+              "Existing actor",
+              `${popup.id_actor}--${popup.id_movie}`
+            );
             return true;
           }
           if (popup.id_actor == id && popup.id_movie == idMovie) {
-            sweetAlertSvc.exitsData("Existing")
-            console.log("Existing movie", `${popup.id_actor}--${popup.id_movie}`);
+            sweetAlertSvc.exitsData("Existing");
+            console.log(
+              "Existing movie",
+              `${popup.id_actor}--${popup.id_movie}`
+            );
             return true;
           }
         }
@@ -114,9 +125,14 @@ function PopUp() {
       console.log(e);
     }
   };
-  const addNewMovie = async() => {
+  const addNewMovie = async () => {
+    if (idMovie === "") {
+      sweetAlertSvc.fillInFields();
+      return
+    }
     const verify = await getExitings();
-    if(verify){
+    
+    if (verify) {
       return;
     }
     const data = {
@@ -154,7 +170,7 @@ function PopUp() {
                 : setIdMovie(e.target.value)
             }
           >
-            <option selected>
+            <option value="" selected>
               {path === "/popup/actors/:id"
                 ? "select an actor"
                 : "select an movie"}
