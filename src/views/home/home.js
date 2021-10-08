@@ -41,9 +41,12 @@ function Home() {
               </div>
             </div>
             <div className="card-footer">
-              <button type="button" className="btn btn-primary col-lg-4">
+              <Link
+                to={"/popup/" + movie.id}
+                className="btn btn-primary col-lg-4"
+              >
                 <i className="far fa-star mr-1 text-warning"></i> See
-              </button>
+              </Link>
               <button
                 onClick={(id) => deleteMovie(movie.id)}
                 type="button"

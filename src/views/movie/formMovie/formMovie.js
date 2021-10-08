@@ -124,7 +124,7 @@ function FormMovie() {
                   type="text"
                   name="Image"
                   className="form-control"
-                  placeholder="Image"
+                  placeholder="Image link"
                   onChange={e=>setPhoto(e.target.value)}
                   value={photo}
                 />
