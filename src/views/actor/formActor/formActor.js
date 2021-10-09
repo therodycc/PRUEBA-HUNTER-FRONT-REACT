@@ -1,5 +1,6 @@
 import { Fragment, useState, useCallback, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+// services
 import httpService from "../../../services/httpService";
 import sweetAlertSvc from "../../../services/sweetAlert";
 
@@ -24,27 +25,33 @@ function FormActor() {
 
   const { id } = useParams();
   const KnowParamsId = () => {
-    console.log(id);
     if (id) {
       setEdit(true);
-      httpService.getOne("http://localhost:3000/api/actors", id).then((e) => {
-        setName(e.full_name);
-        setBorn(e.born);
-        setGender(e.gender);
-        setPhoto(e.photo);
-      });
+      httpService
+        .getOne("http://localhost:3000/api/actors", id)
+        .then((e) => {
+          setName(e.full_name);
+          setBorn(e.born);
+          setGender(e.gender);
+          setPhoto(e.photo);
+        })
+        .catch((error) => console.log(error));
     } else {
       setEdit(false);
     }
   };
 
   const getExisting = async () => {
-    const res = await fetch("http://localhost:3000/api/actors");
-    const data = await res.json();
-    for (const item of data.data) {
-      if (name === item.full_name) {
-        return true;
+    try {
+      const res = await fetch("http://localhost:3000/api/actors");
+      const data = await res.json();
+      for (const item of data.data) {
+        if (name === item.full_name) {
+          return true;
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -63,7 +70,8 @@ function FormActor() {
       .post("http://localhost:3000/api/actors", ACTOR)
       .then(() => {
         handleOnClick();
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   const updateActor = async (e) => {
@@ -78,7 +86,8 @@ function FormActor() {
       .put("http://localhost:3000/api/actors", id, ACTOR)
       .then(() => {
         handleOnClick();
-      });
+      })
+      .catch((error) => console.log(error));
     setEdit(false);
   };
 

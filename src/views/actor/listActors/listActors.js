@@ -1,13 +1,13 @@
 // from react
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loading from "../../../components/common/loading/loading";
 //services
 import httpService from "../../../services/httpService";
 // css
 import "./listActors.css";
 // assets
-import imgNothing from "../../../assets/nothing.svg";
-
+import serverDownImg from '../../../assets/serverdown.svg'
 
 function ListActors() {
   const [actors, setActors] = useState([]);
@@ -20,9 +20,13 @@ function ListActors() {
   }, []);
 
   const getActors = async () => {
-    const data = await httpService.get("http://localhost:3000/api/actors");
-    setActors(data);
-    setTableActors(data);
+    try {
+      const data = await httpService.get("http://localhost:3000/api/actors");
+      setActors(data);
+      setTableActors(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteItem = async (id) => {
@@ -30,7 +34,8 @@ function ListActors() {
       .delete("http://localhost:3000/api/actors/", id)
       .then(() => {
         getActors();
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   const searchBy = (e) => {
@@ -95,63 +100,63 @@ function ListActors() {
         </div>
       </div>
       <div className="card">
-        <div className="card-body table-responsive">
-          <table className="table table-hover">
-            <thead className="text-warning">
-              <tr>
-                <th>ID</th>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Born</th>
-                <th>Gender</th>
-              </tr>
-            </thead>
-            <tbody>
-              {actors.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>
-                    <img src={item.photo} alt="Logo" className="imgTable" />
-                  </td>
-                  <td>{item.full_name}</td>
-                  <td>{item.born}</td>
-                  <td>{item.gender}</td>
-
-                  <td>
-                    <Link
-                      to={"/popup/movies/" + item.id}
-                      className="btn btn-primary"
-                    >
-                      <i className="far fa-star mr-1 text-warning"></i> See
-                    </Link>
-                    <button
-                      onClick={(id) => deleteItem(item.id)}
-                      type="button"
-                      className="btn btn-danger"
-                    >
-                      <i className="fas fa-user-alt-slash"></i>
-                    </button>
-                    <Link
-                      to={"/actors/form/" + item.id}
-                      type="button"
-                      className="btn btn-warning"
-                    >
-                      <i className="fas fa-user-edit"></i>
-                    </Link>
-                  </td>
+        {actors ? (
+          <div className="card-body table-responsive">
+            <table className="table table-hover">
+              <thead className="text-warning">
+                <tr>
+                  <th>ID</th>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Born</th>
+                  <th>Gender</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-            {actors.length == 0 ? (
-            <div className="col-lg-6 offset-2 p-5">
-              <h6 className="text-warning">We haven't found anything</h6>
-              <img src={imgNothing} className="imgNone col-lg-6 m-a" alt="" />
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
+              </thead>
+              <tbody>
+                {actors.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>
+                      <img src={item.photo} alt="Logo" className="imgTable" />
+                    </td>
+                    <td>{item.full_name}</td>
+                    <td>{item.born}</td>
+                    <td>{item.gender}</td>
+
+                    <td>
+                      <Link
+                        to={"/popup/movies/" + item.id}
+                        className="btn btn-primary"
+                      >
+                        <i className="far fa-star mr-1 text-warning"></i> See
+                      </Link>
+                      <button
+                        onClick={(id) => deleteItem(item.id)}
+                        type="button"
+                        className="btn btn-danger"
+                      >
+                        <i className="fas fa-user-alt-slash"></i>
+                      </button>
+                      <Link
+                        to={"/actors/form/" + item.id}
+                        type="button"
+                        className="btn btn-warning"
+                      >
+                        <i className="fas fa-user-edit"></i>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {!actors ? <Loading></Loading> : ""}
+          </div>
+        ) : (
+          <div className="p-5">
+            <h1 className="text-danger col-lg-8 offset-2 mb-5">Service Unavailable 503</h1>
+            <img src={serverDownImg} className="col-lg-6 offset-3" alt=""/>
+          </div>
+        )}
       </div>
     </Fragment>
   );

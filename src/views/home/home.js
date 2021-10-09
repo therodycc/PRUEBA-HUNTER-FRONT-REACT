@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import httpService from "../../services/httpService";
 // css
 import "./home.css";
+// assets
+import serverDownImg from '../../assets/serverdown.svg'
 
 function Home() {
   const [movies, setMovies] = useState([1, 1, 3, 34, 5]);
@@ -14,8 +16,12 @@ function Home() {
   }, []);
 
   const getMovies = async () => {
-    const data = await httpService.get("http://localhost:3000/api/movies");
-    setMovies(data);
+    try {
+      const data = await httpService.get("http://localhost:3000/api/movies");
+      setMovies(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteMovie = async (id) => {
@@ -23,11 +29,13 @@ function Home() {
       .delete("http://localhost:3000/api/movies/", id)
       .then(() => {
         getMovies();
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
     <Fragment>
+      {movies ? (
       <div className="row">
         {movies.map((movie, index) => (
           <div className="col-lg-4 mt-3">
@@ -65,6 +73,12 @@ function Home() {
           </div>
         ))}
       </div>
+      ) : (
+          <div className="p-5">
+            <h1 className="text-danger col-lg-8 offset-2 mb-5">Service Unavailable 503</h1>
+            <img src={serverDownImg} className="col-lg-6 offset-3" alt=""/>
+          </div>
+        )}
     </Fragment>
   );
 }

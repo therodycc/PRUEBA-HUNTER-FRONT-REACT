@@ -1,8 +1,9 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useHistory, Link, useParams } from "react-router-dom";
-
+// services
 import httpService from "../../../services/httpService";
 import sweetAlertSvc from "../../../services/sweetAlert";
+// css
 import "./formMovie.css";
 
 function FormMovie() {
@@ -24,18 +25,17 @@ function FormMovie() {
 
   const { id } = useParams();
   const KnowParamsId = async () => {
-    console.log(id);
     if (id) {
       setEdit(true);
       await httpService
         .getOne("http://localhost:3000/api/movies", id)
         .then((e) => {
-          console.log(e);
           setTitle(e.title);
           setPremiere(e.premiere);
           setGender(e.gender);
           setPhoto(e.photo);
-        });
+        })
+        .catch((error) => console.log(error));
     } else {
       setEdit(false);
     }
@@ -52,7 +52,8 @@ function FormMovie() {
             return false;
           }
         }
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   const add = async (e) => {
@@ -78,7 +79,8 @@ function FormMovie() {
       .post("http://localhost:3000/api/movies", MOVIE)
       .then(() => {
         handleOnClick();
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   const updateMovie = async (e) => {

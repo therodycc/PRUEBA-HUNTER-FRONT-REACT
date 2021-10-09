@@ -2,11 +2,13 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // components
+import Loading from "../../../components/common/loading/loading";
+// services
 import httpService from "../../../services/httpService";
 // css
 import "./listMovies.css";
 // assets
-import imgNothing from "../../../assets/nothing.svg";
+import serverDownImg from '../../../assets/serverdown.svg'
 
 function ListMovies() {
   const [movies, setMovies] = useState([]);
@@ -19,9 +21,13 @@ function ListMovies() {
   }, []);
 
   const getMovies = async () => {
-    const data = await httpService.get("http://localhost:3000/api/movies");
-    setMovies(data);
-    setTableMovies(data);
+    try {
+      const data = await httpService.get("http://localhost:3000/api/movies");
+      setMovies(data);
+      setTableMovies(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteMovie = async (id) => {
@@ -29,7 +35,8 @@ function ListMovies() {
       .delete("http://localhost:3000/api/movies/", id)
       .then(() => {
         getMovies();
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   const searchBy = (e) => {
@@ -97,7 +104,10 @@ function ListMovies() {
           </Link>
         </div>
       </div>
+
       <div className="card">
+
+        {movies ?(
         <div className="card-body table-responsive">
           <table className="table table-hover">
             <thead className="text-warning">
@@ -109,6 +119,7 @@ function ListMovies() {
                 <th>Gender</th>
               </tr>
             </thead>
+
             <tbody>
               {movies.map((item) => (
                 <tr key={item.id}>
@@ -146,16 +157,16 @@ function ListMovies() {
               ))}
             </tbody>
           </table>
-          {movies.length == 0 ? (
-            <div className="col-lg-6 offset-2 p-5">
-              <h6 className="text-warning">We haven't found anything</h6>
-              <img src={imgNothing} className="imgNone col-lg-6 m-a" alt="" />
-            </div>
-          ) : (
-            ""
-          )}
+          {!movies ? <Loading></Loading> : ""}
         </div>
+             ) : (
+              <div className="p-5">
+                <h1 className="text-danger col-lg-8 offset-2 mb-5">Service Unavailable 503</h1>
+                <img src={serverDownImg} className="col-lg-6 offset-3" alt=""/>
+              </div>
+            )}
       </div>
+      
     </Fragment>
   );
 }

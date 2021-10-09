@@ -1,5 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
+// components
+import Loading from "../../components/common/loading/loading";
 // services
 import httpService from "../../services/httpService";
 import sweetAlertSvc from "../../services/sweetAlert";
@@ -32,10 +34,14 @@ function PopUp() {
 
   // actors
   const getActorsMovie = async () => {
-    const data = await httpService.get(
-      `http://localhost:3000/api/popup/movies/${id}`
-    );
-    setListActorsMovie(data);
+    try {
+      const data = await httpService.get(
+        `http://localhost:3000/api/popup/movies/${id}`
+      );
+      setListActorsMovie(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const getMovie = async () => {
     await httpService
@@ -43,7 +49,7 @@ function PopUp() {
       .then((e) => {
         setMovie(e);
       })
-      .catch((e) => console.log(e));
+      .catch((error) => console.log(error));
   };
   const getActors = async () => {
     try {
@@ -60,7 +66,7 @@ function PopUp() {
     }
     if (idActor === "") {
       sweetAlertSvc.fillInFields();
-      return
+      return;
     }
     const data = {
       id_actor: idActor,
@@ -76,7 +82,8 @@ function PopUp() {
       .delete("http://localhost:3000/api/popup", `${idActorDelete}/${id}`)
       .then(() => {
         getActorsMovie();
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   const getExitings = async () => {
@@ -101,15 +108,20 @@ function PopUp() {
             return true;
           }
         }
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   // movies
   const getMoviesActor = async () => {
-    const data = await httpService.get(
-      `http://localhost:3000/api/popup/actors/${id}`
-    );
-    setListMoviesActor(data);
+    try {
+      const data = await httpService.get(
+        `http://localhost:3000/api/popup/actors/${id}`
+      );
+      setListMoviesActor(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const getActor = async () => {
     await httpService
@@ -117,7 +129,7 @@ function PopUp() {
       .then((e) => {
         setActor(e);
       })
-      .catch((e) => console.log(e));
+      .catch((error) => console.log(error));
   };
   const getMovies = async () => {
     try {
@@ -130,10 +142,10 @@ function PopUp() {
   const addNewMovie = async () => {
     if (idMovie === "") {
       sweetAlertSvc.fillInFields();
-      return
+      return;
     }
     const verify = await getExitings();
-    
+
     if (verify) {
       return;
     }
@@ -141,16 +153,20 @@ function PopUp() {
       id_actor: id,
       id_movie: idMovie,
     };
-    httpService.post(`http://localhost:3000/api/popup`, data).then(() => {
-      getMoviesActor();
-    });
+    httpService
+      .post(`http://localhost:3000/api/popup`, data)
+      .then(() => {
+        getMoviesActor();
+      })
+      .catch((error) => console.log(error));
   };
   const deleteMovieFromActor = (idMovieDelete) => {
     httpService
       .delete("http://localhost:3000/api/popup", `${id}/${idMovieDelete}`)
       .then(() => {
         getMoviesActor();
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (

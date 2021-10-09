@@ -2,14 +2,22 @@ import sweetAlertSvc from "./sweetAlert";
 
 class HttpService {
   async get(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-    return data.data;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      return data.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
   async getOne(url, id) {
-    const res = await fetch(`${url}/${id}`);
-    const data = await res.json();
-    return data.data;
+    try {
+      const res = await fetch(`${url}/${id}`);
+      const data = await res.json();
+      return data.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
   async post(url, data) {
     await fetch(url, {
@@ -41,19 +49,18 @@ class HttpService {
 
   async put(url, id, data) {
     fetch(`${url}/${id}`, {
-      method: "PUT", 
+      method: "PUT",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((res) => {
-        sweetAlertSvc.sweetUpdated()
+        sweetAlertSvc.sweetUpdated();
       })
       .catch((error) => {
-        sweetAlertSvc.sweetError(error)
-      })
-
+        sweetAlertSvc.sweetError(error);
+      });
   }
 }
 

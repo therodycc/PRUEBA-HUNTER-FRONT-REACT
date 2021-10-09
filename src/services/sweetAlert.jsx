@@ -26,7 +26,9 @@ class sweetAlertService {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => result.isConfirmed);
+    })
+      .then((result) => result.isConfirmed)
+      .catch((error) => console.log(error));
   };
 
   sweetDeleted = () => {
