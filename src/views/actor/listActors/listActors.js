@@ -7,7 +7,8 @@ import httpService from "../../../services/httpService";
 // css
 import "./listActors.css";
 // assets
-import serverDownImg from '../../../assets/serverdown.svg'
+import serverDownImg from "../../../assets/serverdown.svg";
+import addNewImg from "../../../assets/addNew.svg";
 
 function ListActors() {
   const [actors, setActors] = useState([]);
@@ -153,9 +154,20 @@ function ListActors() {
           </div>
         ) : (
           <div className="p-5">
-            <h1 className="text-danger col-lg-8 offset-2 mb-5">Service Unavailable 503</h1>
-            <img src={serverDownImg} className="col-lg-6 offset-3" alt=""/>
+            <h1 className="text-danger col-lg-8 offset-2 mb-5">
+              Service Unavailable 503
+            </h1>
+            <img src={serverDownImg} className="col-lg-6 offset-3" alt="" />
           </div>
+        )}
+
+        {actors.length === 0 ? (
+          <div >
+            <h1 className="text-warning col-lg-4 mt-5 offset-4">Add new actor</h1>
+            <img src={addNewImg} className="col-lg-4 mt-5 offset-4" alt="" />
+          </div>
+        ) : (
+          ""
         )}
       </div>
     </Fragment>

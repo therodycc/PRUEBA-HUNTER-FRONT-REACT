@@ -8,7 +8,8 @@ import httpService from "../../../services/httpService";
 // css
 import "./listMovies.css";
 // assets
-import serverDownImg from '../../../assets/serverdown.svg'
+import serverDownImg from "../../../assets/serverdown.svg";
+import addNewImg from "../../../assets/addNew.svg";
 
 function ListMovies() {
   const [movies, setMovies] = useState([]);
@@ -106,67 +107,78 @@ function ListMovies() {
       </div>
 
       <div className="card">
-
-        {movies ?(
-        <div className="card-body table-responsive">
-          <table className="table table-hover">
-            <thead className="text-warning">
-              <tr>
-                <th>ID</th>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Premiere</th>
-                <th>Gender</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {movies.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>
-                    <img src={item.photo} alt="Logo" className="imgTable" />
-                  </td>
-                  <td>{item.title}</td>
-                  <td>{item.premiere}</td>
-                  <td>{item.gender}</td>
-
-                  <td>
-                    <Link
-                      to={"/popup/actors/" + item.id}
-                      className="btn btn-primary"
-                    >
-                      <i className="far fa-star mr-1 text-warning"></i> See
-                    </Link>
-                    <button
-                      onClick={(id) => deleteMovie(item.id)}
-                      type="button"
-                      className="btn btn-danger"
-                    >
-                      <i className="fas fa-user-alt-slash"></i>
-                    </button>
-                    <Link
-                      to={"/movies/form/" + item.id}
-                      type="button"
-                      className="btn btn-warning"
-                    >
-                      <i className="fas fa-user-edit"></i>
-                    </Link>
-                  </td>
+        {movies ? (
+          <div className="card-body table-responsive">
+            <table className="table table-hover">
+              <thead className="text-warning">
+                <tr>
+                  <th>ID</th>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Premiere</th>
+                  <th>Gender</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {!movies ? <Loading></Loading> : ""}
-        </div>
-             ) : (
-              <div className="p-5">
-                <h1 className="text-danger col-lg-8 offset-2 mb-5">Service Unavailable 503</h1>
-                <img src={serverDownImg} className="col-lg-6 offset-3" alt=""/>
-              </div>
-            )}
+              </thead>
+
+              <tbody>
+                {movies.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>
+                      <img src={item.photo} alt="Logo" className="imgTable" />
+                    </td>
+                    <td>{item.title}</td>
+                    <td>{item.premiere}</td>
+                    <td>{item.gender}</td>
+
+                    <td>
+                      <Link
+                        to={"/popup/actors/" + item.id}
+                        className="btn btn-primary"
+                      >
+                        <i className="far fa-star mr-1 text-warning"></i> See
+                      </Link>
+                      <button
+                        onClick={(id) => deleteMovie(item.id)}
+                        type="button"
+                        className="btn btn-danger"
+                      >
+                        <i className="fas fa-user-alt-slash"></i>
+                      </button>
+                      <Link
+                        to={"/movies/form/" + item.id}
+                        type="button"
+                        className="btn btn-warning"
+                      >
+                        <i className="fas fa-user-edit"></i>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {!movies ? <Loading></Loading> : ""}
+          </div>
+        ) : (
+          <div className="p-5">
+            <h1 className="text-danger col-lg-8 offset-2 mb-5">
+              Service Unavailable 503
+            </h1>
+            <img src={serverDownImg} className="col-lg-6 offset-3" alt="" />
+          </div>
+        )}
+
+        {movies.length === 0 ? (
+          <div>
+            <h1 className="text-warning col-lg-4 mt-5 offset-4">
+              Add new movie
+            </h1>
+            <img src={addNewImg} className="col-lg-4 mt-5 offset-4" alt="" />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
-      
     </Fragment>
   );
 }
