@@ -3,3 +3,8 @@
   height: 70px;
   object-fit: cover;
 }
+
+.imgNone{
+  width: 100%;
+  height: auto;
+}

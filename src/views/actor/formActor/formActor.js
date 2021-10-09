@@ -122,7 +122,7 @@ function FormActor() {
                   onChange={(e) => setGender(e.target.value)}
                   value={gender}
                 >
-                  <option value="Male">Male</option>
+                  <option value="Male.">Male</option>
                   <option value="Female">Female</option>
                 </select>
               </div>

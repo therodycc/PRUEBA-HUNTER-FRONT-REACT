@@ -1,16 +1,19 @@
 // from react
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// components
-import Search from "../../../components/common/search/search";
 //services
 import httpService from "../../../services/httpService";
 // css
 import "./listActors.css";
+// assets
+import imgNothing from "../../../assets/nothing.svg";
+
 
 function ListActors() {
   const [actors, setActors] = useState([]);
-  const [id, setId] = useState("");
+  const [tableActors, setTableActors] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchByDrop, setSearchByDrop] = useState("");
 
   useEffect(() => {
     getActors();
@@ -19,6 +22,7 @@ function ListActors() {
   const getActors = async () => {
     const data = await httpService.get("http://localhost:3000/api/actors");
     setActors(data);
+    setTableActors(data);
   };
 
   const deleteItem = async (id) => {
@@ -29,20 +33,58 @@ function ListActors() {
       });
   };
 
+  const searchBy = (e) => {
+    setSearchByDrop(e.target.value);
+    filterData(e.target.value);
+  };
+
+  const searchData = async (e) => {
+    setSearch(e.target.value);
+    filterData(e.target.value);
+  };
+
+  const filterData = (byItem) => {
+    const searchResult = tableActors.filter((element) => {
+      if (
+        element.full_name
+          .toString()
+          .toLowerCase()
+          .includes(byItem.toLowerCase()) ||
+        element.born.toString().toLowerCase().includes(byItem.toLowerCase()) ||
+        element.gender.toString().toLowerCase().includes(byItem.toLowerCase())
+      ) {
+        return element;
+      }
+    });
+    setActors(searchResult);
+  };
   return (
     <Fragment>
       <h1 className="text-left text-warning">Actors</h1>
       <div className="row mt-3 d-flex justify-content-between">
         <div className="col-lg-8">
-          <Search></Search>
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon1">
+              @
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => searchData(e)}
+            />
+          </div>
         </div>
         <div className="col-lg-2">
           <select
             className="form-control mb-3"
             aria-label=".form-select-lg example"
+            onChange={(e) => searchBy(e)}
           >
-            <option value="General">General</option>
-            <option value="Gender">Gender</option>
+            <option value="">General</option>
+            <option value="Male.">Male</option>
+            <option value="Female">Female</option>
           </select>
         </div>
 
@@ -101,6 +143,14 @@ function ListActors() {
               ))}
             </tbody>
           </table>
+            {actors.length == 0 ? (
+            <div className="col-lg-6 offset-2 p-5">
+              <h6 className="text-warning">We haven't found anything</h6>
+              <img src={imgNothing} className="imgNone col-lg-6 m-a" alt="" />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </Fragment>

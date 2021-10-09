@@ -5,11 +5,14 @@ import { Link } from "react-router-dom";
 import httpService from "../../../services/httpService";
 // css
 import "./listMovies.css";
+// assets
+import imgNothing from "../../../assets/nothing.svg";
 
 function ListMovies() {
   const [movies, setMovies] = useState([]);
-  const [Tablemovies, setTableMovies] = useState([]);
+  const [TableMovies, setTableMovies] = useState([]);
   const [search, setSearch] = useState([]);
+  const [searchByDrop, setSearchByDrop] = useState([]);
 
   useEffect(() => {
     getMovies();
@@ -29,13 +32,17 @@ function ListMovies() {
       });
   };
 
+  const searchBy = (e) => {
+    setSearchByDrop(e.target.value);
+    filterData(e.target.value);
+  };
   const searchData = async (e) => {
     setSearch(e.target.value);
-    filterMovie(e.target.value);
+    filterData(e.target.value);
   };
 
-  const filterMovie = (byItem) => {
-    const searchResult = Tablemovies.filter((element) => {
+  const filterData = (byItem) => {
+    const searchResult = TableMovies.filter((element) => {
       if (
         element.title.toString().toLowerCase().includes(byItem.toLowerCase()) ||
         element.premiere
@@ -72,12 +79,15 @@ function ListMovies() {
           <select
             className="form-control mb-3"
             aria-label=".form-select-lg example"
-            onChange={(e) => searchData(e)}
+            onChange={(e) => searchBy(e)}
           >
-            <option value="">General</option>
-            {Tablemovies.map((item) => (
-              <option value={item.gender}>{item.gender}</option>
-            ))}
+            <option value="">GENERAL</option>
+            <option value="FICTION">FICTION</option>
+            <option value="ADVENTURE">ADVENTURE</option>
+            <option value="COMEDY">COMEDY</option>
+            <option value="TERROR">TERROR</option>
+            <option value="ACTION">ACTION</option>
+            <option value="SUSPENSE">SUSPENSE</option>
           </select>
         </div>
 
@@ -136,6 +146,14 @@ function ListMovies() {
               ))}
             </tbody>
           </table>
+          {movies.length == 0 ? (
+            <div className="col-lg-6 offset-2 p-5">
+              <h6 className="text-warning">We haven't found anything</h6>
+              <img src={imgNothing} className="imgNone col-lg-6 m-a" alt="" />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </Fragment>
