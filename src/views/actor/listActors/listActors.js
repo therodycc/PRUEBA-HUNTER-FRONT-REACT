@@ -151,6 +151,21 @@ function ListActors() {
               </tbody>
             </table>
             {!actors ? <Loading></Loading> : ""}
+
+            {actors.length === 0 ? (
+              <div>
+                <h1 className="text-warning col-lg-4 mt-5 offset-4">
+                  Add new actor
+                </h1>
+                <img
+                  src={addNewImg}
+                  className="col-lg-4 mt-5 offset-4"
+                  alt=""
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           <div className="p-5">
@@ -159,15 +174,6 @@ function ListActors() {
             </h1>
             <img src={serverDownImg} className="col-lg-6 offset-3" alt="" />
           </div>
-        )}
-
-        {actors.length === 0 ? (
-          <div >
-            <h1 className="text-warning col-lg-4 mt-5 offset-4">Add new actor</h1>
-            <img src={addNewImg} className="col-lg-4 mt-5 offset-4" alt="" />
-          </div>
-        ) : (
-          ""
         )}
       </div>
     </Fragment>

@@ -158,6 +158,21 @@ function ListMovies() {
               </tbody>
             </table>
             {!movies ? <Loading></Loading> : ""}
+
+            {movies.length === 0 ? (
+              <div>
+                <h1 className="text-warning col-lg-4 mt-5 offset-4">
+                  Add new movie
+                </h1>
+                <img
+                  src={addNewImg}
+                  className="col-lg-4 mt-5 offset-4"
+                  alt=""
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           <div className="p-5">
@@ -166,17 +181,6 @@ function ListMovies() {
             </h1>
             <img src={serverDownImg} className="col-lg-6 offset-3" alt="" />
           </div>
-        )}
-
-        {movies.length === 0 ? (
-          <div>
-            <h1 className="text-warning col-lg-4 mt-5 offset-4">
-              Add new movie
-            </h1>
-            <img src={addNewImg} className="col-lg-4 mt-5 offset-4" alt="" />
-          </div>
-        ) : (
-          ""
         )}
       </div>
     </Fragment>

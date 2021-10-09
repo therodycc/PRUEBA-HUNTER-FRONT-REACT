@@ -8,6 +8,7 @@ import "./home.css";
 // assets
 import serverDownImg from "../../assets/serverdown.svg";
 import addNewImg from "../../assets/addNew.svg";
+import Loading from "../../components/common/loading/loading";
 
 function Home() {
   const [movies, setMovies] = useState([1, 1, 3, 34, 5]);
@@ -73,6 +74,16 @@ function Home() {
               </div>
             </div>
           ))}
+          {movies.length === 0 ? (
+            <div>
+              <h1 className="text-warning col-lg-6 mt-5 offset-3">
+                Add new movie
+              </h1>
+              <img src={addNewImg} className="col-lg-4 mt-5 offset-4" alt="" />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         <div className="p-5">
@@ -81,15 +92,6 @@ function Home() {
           </h1>
           <img src={serverDownImg} className="col-lg-6 offset-3" alt="" />
         </div>
-      )}
-
-      {movies.length === 0 ? (
-        <div>
-          <h1 className="text-warning col-lg-4 mt-5 offset-4">Add new movie</h1>
-          <img src={addNewImg} className="col-lg-4 mt-5 offset-4" alt="" />
-        </div>
-      ) : (
-        ""
       )}
     </Fragment>
   );
