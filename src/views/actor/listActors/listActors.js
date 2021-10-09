@@ -66,7 +66,7 @@ function ListActors() {
             </thead>
             <tbody>
               {actors.map((item) => (
-                <tr>
+                <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>
                     <img src={item.photo} alt="Logo" className="imgTable" />

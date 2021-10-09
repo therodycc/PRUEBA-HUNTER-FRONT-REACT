@@ -1,7 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link, useParams, useRouteMatch } from "react-router-dom";
+// services
 import httpService from "../../services/httpService";
 import sweetAlertSvc from "../../services/sweetAlert";
+// css
 import "./popup.css";
 
 function PopUp() {

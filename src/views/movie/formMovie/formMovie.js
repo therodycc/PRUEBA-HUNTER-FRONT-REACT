@@ -142,6 +142,8 @@ function FormMovie() {
                   <option value="ADVENTURE">ADVENTURE</option>
                   <option value="COMEDY">COMEDY</option>
                   <option value="TERROR">TERROR</option>
+                  <option value="ACTION">ACTION</option>
+                  <option value="SUSPENSE">SUSPENSE</option>
                 </select>
               </div>
               <div className="form-group">
