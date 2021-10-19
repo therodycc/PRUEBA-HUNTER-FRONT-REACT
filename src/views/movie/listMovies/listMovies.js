@@ -157,9 +157,8 @@ function ListMovies() {
                 ))}
               </tbody>
             </table>
-            {!movies ? <Loading></Loading> : ""}
 
-            {movies.length === 0 ? (
+            {TableMovies.length === 0 ? (
               <div>
                 <h1 className="text-warning col-lg-4 mt-5 offset-4">
                   Add new movie
@@ -175,12 +174,18 @@ function ListMovies() {
             )}
           </div>
         ) : (
+          ""
+        )}
+
+        {!movies ? (
           <div className="p-5">
             <h1 className="text-danger col-lg-8 offset-2 mb-5">
               Service Unavailable 503
             </h1>
             <img src={serverDownImg} className="col-lg-6 offset-3" alt="" />
           </div>
+        ) : (
+          ""
         )}
       </div>
     </Fragment>

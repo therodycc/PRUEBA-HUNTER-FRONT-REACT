@@ -32,6 +32,7 @@ class HttpService {
       })
       .catch((e) => sweetAlertSvc.sweetError(e));
   }
+  
   async delete(url, id) {
     const confirm = await sweetAlertSvc.sweetQuestionDelete();
     if (confirm) {
